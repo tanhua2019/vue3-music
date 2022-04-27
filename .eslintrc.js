@@ -13,7 +13,16 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    indent: 0,
+    indent: ['off', 2],
     'space-before-function-paren': 0
-  }
+  },
+  // 关闭eslint的文件名校验
+  overrides: [
+    {
+      files: ['src/**/**/*.vue'],
+      rules: {
+        'vue/multi-word-component-names': 0
+      }
+    }
+  ]
 }
