@@ -1,6 +1,7 @@
 
 const registerRouter = require('./backend/router')
 module.exports = {
+  lintOnSave:false,
   css: {
     loaderOptions: {
       sass: {
