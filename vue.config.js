@@ -9,8 +9,10 @@ module.exports = {
     }
   },
   devServer: {
-    before(app) {
-      registerRouter(app)
+    // 升级webpack5
+    setupMiddlewares: (middlewares, devServer) => {
+      registerRouter(devServer.app)
+      return middlewares
     }
   }
 }
