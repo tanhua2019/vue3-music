@@ -10,6 +10,9 @@ import { getSingerDetail } from "@/service/singer";
 import { processSongs } from "@/service/song";
 import MusicList from "@/components/music-list/music-list.vue";
 import { onMounted, ref, computed } from "vue";
+import { SINGER_KEY } from '@/assets/js/constant'
+import { useRoute } from 'vue-router'
+
 const props = defineProps({
   singer: {
     type: Object,
@@ -18,14 +21,28 @@ const props = defineProps({
 });
 const songs = ref([]);
 onMounted(async () => {
-  const detail = await getSingerDetail(props.singer);
+  const detail = await getSingerDetail(computedSinger.value);
   songs.value = await processSongs(detail.songs);
 });
-console.log(props.singer,'111');
-const pic = computed(() => props.singer && props.singer.pic);
-const title = computed(() => props.singer && props.singer.name);
 
-console.log(pic, title,'11111');
+const pic = computed(() => computedSinger.value && computedSinger.value.pic);
+const title = computed(() => computedSinger.value && computedSinger.value.name);
+
+const route = useRoute()
+const computedSinger = computed(() => {
+  let ret = null;
+  const singer = props.singer.value
+  if(singer) {
+    ret = singer
+  } else {
+    let key = JSON.parse(sessionStorage.getItem('SINGER_KEY'))
+    if(key && route.params.id === key.mid) {
+      ret = key;
+    }
+  }
+  return ret
+})
+
 </script>
 
 <style lang="scss" scoped>

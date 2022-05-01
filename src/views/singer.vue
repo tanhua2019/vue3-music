@@ -10,6 +10,7 @@ import { onMounted,ref } from 'vue'
 import { getSingerList } from '@/service/singer'
 import { useRouter } from 'vue-router'
 import IndexList from '@/components/index-list/index-list.vue'
+import { SINGER_KEY } from '@/assets/js/constant'
 const singerList = ref([])
 const loading = ref(true)
 const selectSinger = ref([])
@@ -22,6 +23,7 @@ onMounted(async () => {
 
 const handleSelect = (singer) => {
   selectSinger.value = singer;
+  sessionStorage.setItem('SINGER_KEY', JSON.stringify(singer))
   router.push({
     path: `/singer/${singer.mid}`
   })
