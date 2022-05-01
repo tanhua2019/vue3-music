@@ -1,5 +1,3 @@
-import storage from 'good-storage'
-
 function inertArray(arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
@@ -22,28 +20,28 @@ function deleteFromArray(arr, compare) {
 }
 
 export function save(item, key, compare, maxLen) {
-  const items = storage.get(key, [])
+  const items = JSON.parse(localStorage.getItem(key))
   inertArray(items, item, compare, maxLen)
-  storage.set(key, items)
+  localStorage.setItem(key, JSON.stringify(items))
   return items
 }
 
 export function remove(key, compare) {
-  const items = storage.get(key, [])
+  const items = JSON.parse(localStorage.getItem(key))
   deleteFromArray(items, compare)
-  storage.set(key, items)
+  localStorage.setItem(key, JSON.stringify(items))
   return items
 }
 
 export function load(key) {
-  return storage.get(key, [])
+  return JSON.parse(localStorage.getItem(key))
 }
 
 export function clear(key) {
-  storage.remove(key)
+  localStorage.removeItem(key)
   return []
 }
 
 export function saveAll(items, key) {
-  storage.set(key, items)
+  localStorage.setItem(key, JSON.stringify(items))
 }

@@ -11,7 +11,7 @@ import { processSongs } from "@/service/song";
 import MusicList from "@/components/music-list/music-list.vue";
 import { onMounted, ref, computed } from "vue";
 import { SINGER_KEY } from '@/assets/js/constant'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps({
   singer: {
@@ -19,16 +19,22 @@ const props = defineProps({
     default: () => {},
   },
 });
+
+const router = useRouter()
+const route = useRoute()
 const songs = ref([]);
 onMounted(async () => {
+  if (!computedSinger.value) {
+    const path = route.matched[0].path;
+    router.push(path)
+    return
+  }
   const detail = await getSingerDetail(computedSinger.value);
   songs.value = await processSongs(detail.songs);
 });
 
 const pic = computed(() => computedSinger.value && computedSinger.value.pic);
 const title = computed(() => computedSinger.value && computedSinger.value.name);
-
-const route = useRoute()
 const computedSinger = computed(() => {
   let ret = null;
   const singer = props.singer.value

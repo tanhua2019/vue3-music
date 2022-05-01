@@ -1,29 +1,65 @@
 <template>
   <div class="player">
-    <!-- <div class="normal-player" v-show="fullScreen">
+    <div class="normal-player" v-show="fullScreen">
       <div class="background">
         <img :src="currentSong.pic" />
       </div>
       <div class="top">
-        <div class="back">
+        <div class="back" @click="store.commit('setFullScreen', false)">
           <i class="icon-back"></i>
         </div>
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">{{ currentSong.singer }}</h2>
       </div>
-    </div> -->
-
-    <audio></audio>
+      <div class="bottom">
+        <!-- <div class="dot-wrapper">
+          <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
+          <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
+        </div>
+        <div class="progress-wrapper">
+          <span class="time time-l">{{ formatTime(currentTime) }}</span>
+          <div class="progress-bar-wrapper">
+            <progress-bar
+              ref="barRef"
+              :progress="progress"
+              @progress-changing="onProgressChanging"
+              @progress-changed="onProgressChanged"
+            ></progress-bar>
+          </div>
+          <span class="time time-r">{{
+            formatTime(currentSong.duration)
+          }}</span>
+        </div> -->
+        <div class="operators">
+          <div class="icon i-left">
+            <i class="icon-sequence"></i>
+          </div>
+          <div class="icon i-left">
+            <i class="icon-prev" @click="prev"></i>
+          </div>
+          <div class="icon i-center" @click="togglePlay">
+            <i :class="playIcon"></i>
+          </div>
+          <div class="icon i-right">
+            <i class="icon-next" @click="next"></i>
+          </div>
+          <div class="icon i-right">
+            <i class="icon-not-favorite"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
   </div>
 </template>
 
 <script setup>
-import { useStore } from 'vuex'
-import { computed } from 'vue'
-const store = useStore()
+import { ref } from "vue";
+import { usePlay } from "./use-play";
 
-const fullScreen = computed(() => store.state.fullScreen)
-const currentSong = computed(() => store.getters.currentSong)
+const audioRef = ref();
+const { fullScreen, currentSong, playIcon, togglePlay, pause, prev, next, ready } = usePlay(audioRef);
+
 </script>
 
 <style lang="scss" scoped>

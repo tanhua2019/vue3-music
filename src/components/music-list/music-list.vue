@@ -8,7 +8,7 @@
       <div class="filter"></div>
     </div>
     <div class="song-list-wrapper" v-loading="!songs.length">
-      <song-list :songs="songs"></song-list>
+      <song-list :songs="songs" @select="selectItem"></song-list>
     </div>
   </div>
 </template>
@@ -17,7 +17,9 @@
 import SongList from "@/components/song-list/song-list.vue";
 import { ref, onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-const router = useRouter();
+import { useStore, mapActions } from 'vuex'
+const router = useRouter()
+const store = useStore()
 const props = defineProps({
   songs: {
     type: Array,
@@ -36,7 +38,13 @@ const bgImageStyle = computed(() => {
   return { backgroundImage: `url(${props.pic})` };
 });
 
-console.log(bgImageStyle, "111");
+const selectItem = ({ song, index }) => {
+  store.dispatch('selectPlay', {
+    list: props.songs,
+    index
+  })
+}
+
 </script>
 <style lang="scss" scoped>
 .music-list {
