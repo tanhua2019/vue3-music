@@ -13,7 +13,14 @@ const routes = [
   {
     path: '/singer',
     name: 'singer',
-    component: () => import('@/views/singer.vue')
+    component: () => import('@/views/singer.vue'),
+    children: [
+      {
+        //动态参数
+        path: ':id',
+        component: () => import('@/views/singer-detail.vue')
+      }
+    ]
   },
   {
     path: '/top-list',

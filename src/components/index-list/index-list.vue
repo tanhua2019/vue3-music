@@ -51,6 +51,9 @@ const { shortcutList, onTouchStart } = useShortcut(
   groupRef,
   currentIndex
 );
+const emit = defineEmits(['select'])
+const onItemClick = (item) => emit('select', item)
+
 </script>
 
 <style lang="scss" scoped>

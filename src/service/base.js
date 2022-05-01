@@ -10,7 +10,6 @@ export function get(url, params) {
     params
   }).then(res => {
     const serverData = res.data
-    console.log(serverData, '999')
     if (serverData.code === ERR_OK) {
       return serverData.result
     }
