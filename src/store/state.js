@@ -1,5 +1,4 @@
-import { PLAY_MODE, SEARCH_KEY } from '@/assets/js/constant'
-import { load } from '@/assets/js/array-store'
+import { PLAY_MODE, SEARCH_KEY, FAVORITE_KEY } from '@/store/constant'
 
 const state = {
   sequenceList: [],
@@ -8,8 +7,8 @@ const state = {
   playMode: PLAY_MODE.sequence,
   currentIndex: 0,
   fullScreen: false,
-  favoriteList: [],
-  searchHistory: load(SEARCH_KEY),
+  favoriteList: JSON.parse(localStorage.getItem(FAVORITE_KEY)) || [],
+  searchHistory: JSON.parse(localStorage.getItem(SEARCH_KEY)) || [],
   playHistory: []
 }
 

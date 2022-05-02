@@ -1,4 +1,3 @@
-import { addClass, removeClass } from '@/assets/js/dom'
 import { createApp } from 'vue'
 import Loading from './loading.vue'
 
@@ -25,13 +24,15 @@ const loadingDirective = {
 function append(el) {
   const style = getComputedStyle(el)
   if (!['absolute', 'fixed', 'relative'].includes(style.position)) {
-    addClass(el, 'g-relative')
+    if (!el.classList.contains('g-relative')) {
+      el.classList.add('g-relative')
+    }
   }
   el.appendChild(el.instance.$el)
 }
 
 function remove(el) {
-  removeClass(el, 'g-relative')
+  el.classList.remove('g-relative')
   el.removeChild(el.instance.$el)
 }
 

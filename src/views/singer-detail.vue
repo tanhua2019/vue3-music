@@ -10,7 +10,7 @@ import { getSingerDetail } from "@/service/singer";
 import { processSongs } from "@/service/song";
 import MusicList from "@/components/music-list/music-list.vue";
 import { onMounted, ref, computed } from "vue";
-import { SINGER_KEY } from '@/assets/js/constant'
+import { SINGER_KEY } from '@/store/constant'
 import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -41,7 +41,7 @@ const computedSinger = computed(() => {
   if(singer) {
     ret = singer
   } else {
-    let key = JSON.parse(sessionStorage.getItem('SINGER_KEY'))
+    let key = JSON.parse(sessionStorage.getItem(SINGER_KEY))
     if(key && route.params.id === key.mid) {
       ret = key;
     }

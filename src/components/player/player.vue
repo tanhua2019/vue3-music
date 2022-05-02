@@ -43,8 +43,8 @@
           <div class="icon i-right">
             <i class="icon-next" @click="next"></i>
           </div>
-          <div class="icon i-right">
-            <i class="icon-not-favorite"></i>
+          <div class="icon i-right" @click="toggleFavorite(currentSong)">
+            <i :class="getFavoriteIcon(currentSong)"></i>
           </div>
         </div>
       </div>
@@ -57,10 +57,13 @@
 import usePlay from "./use-play";
 import useMode from "./use-mode";
 import usePlayBtn from "./use-playbtn";
+import useFavorite from './use-favorite.js'
 
 const { fullScreen, currentSong, pause, prev, next, ready, audioRef,goBack } = usePlay();
 const { modeIcon, changeMode } = useMode();
 const { playIcon, togglePlay } = usePlayBtn();
+const { getFavoriteIcon,toggleFavorite } = useFavorite()
+
 </script>
 
 <style lang="scss" scoped>

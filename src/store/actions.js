@@ -1,4 +1,4 @@
-import { PLAY_MODE } from '@/assets/js/constant'
+import { PLAY_MODE } from '@/store/constant'
 import { shuffle } from '@/assets/js/util'
 
 export function selectPlay({ commit }, { list, index }) {
