@@ -5,7 +5,7 @@
         <img :src="currentSong.pic" />
       </div>
       <div class="top">
-        <div class="back" @click="store.commit('setFullScreen', false)">
+        <div class="back" @click="goBack">
           <i class="icon-back"></i>
         </div>
         <h1 class="title">{{ currentSong.name }}</h1>
@@ -31,8 +31,8 @@
           }}</span>
         </div> -->
         <div class="operators">
-          <div class="icon i-left">
-            <i class="icon-sequence"></i>
+          <div class="icon i-left" @click="changeMode">
+            <i :class="modeIcon"></i>
           </div>
           <div class="icon i-left">
             <i class="icon-prev" @click="prev"></i>
@@ -54,12 +54,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { usePlay } from "./use-play";
+import usePlay from "./use-play";
+import useMode from "./use-mode";
+import usePlayBtn from "./use-playbtn";
 
-const audioRef = ref();
-const { fullScreen, currentSong, playIcon, togglePlay, pause, prev, next, ready } = usePlay(audioRef);
-
+const { fullScreen, currentSong, pause, prev, next, ready, audioRef,goBack } = usePlay();
+const { modeIcon, changeMode } = useMode();
+const { playIcon, togglePlay } = usePlayBtn();
 </script>
 
 <style lang="scss" scoped>

@@ -1,15 +1,14 @@
 import { useStore } from "vuex";
 import { computed, watch, ref } from "vue";
 
-export const usePlay = (audioRef) => {
+export default function usePlay() {
   const store = useStore();
+  const audioRef = ref();
   const fullScreen = computed(() => store.state.fullScreen);
   // 获取当前播放音乐
   const currentSong = computed(() => store.getters.currentSong);
   // 获取playing播放状态
   const playing = computed(() => store.state.playing);
-  // 根据播放状态计算icon
-  const playIcon = computed(() => (playing.value ? "icon-pause" : "icon-play"));
   // 获取当前播放的index
   const currentIndex = computed(() => store.state.currentIndex);
   // 获取当前播放列表
@@ -33,10 +32,6 @@ export const usePlay = (audioRef) => {
     audioRef.value.play();
   });
 
-  // 切换播放状态
-  const togglePlay = () => {
-    store.commit("setPlayingState", !playing.value);
-  };
 
   // 当audio自己暂停的时候，同步将playState改成false
   const pause = () => {
@@ -85,21 +80,26 @@ export const usePlay = (audioRef) => {
     audioRef.value.currentTime = 0
     audioRef.value.play()
   }
-  
+
   // 当audio play执行之后，可以播放时会执行canplay方法
   const ready = () => {
-    if(songReady.value) return
+    if (songReady.value) return
     songReady.value = true
+  }
+
+  const goBack = () => {
+    store.commit('setFullScreen', false)
   }
 
   return {
     fullScreen,
     currentSong,
-    playIcon,
-    togglePlay,
+
     pause,
     prev,
     next,
-    ready
+    ready,
+    audioRef,
+    goBack
   }
 }
