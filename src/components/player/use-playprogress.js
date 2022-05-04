@@ -28,7 +28,7 @@ export default function usePlayProgress(audioRef) {
   }
 
   const progressChanged = (progress) => {
-    proChanging = false
+    progressChange = false
     audioRef.value.currentTime  = currentTime.value = currentSong.value.duration * progress
     if(!playing.value) {
       store.commit('setPlayingState', true)

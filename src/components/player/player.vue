@@ -17,18 +17,19 @@
           <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
         </div> -->
         <div class="progress-wrapper">
-          <span class="time time-l">{{ $filters.formatTime(currentTime) }}</span>
+          <span class="time time-l">
+            {{ $filters.formatTime(currentTime) }}
+          </span>
           <div class="progress-bar-wrapper">
             <progress-bar
-              ref="barRef"
               :progress="progress"
-              @progress-changed="progressChanged"
               @progress-changing="progressChanging"
+              @progress-changed="progressChanged"
             ></progress-bar>
           </div>
-          <span class="time time-r">{{
-            $filters.formatTime(currentSong.duration)
-          }}</span>
+          <span class="time time-r">
+            {{ $filters.formatTime(currentSong.duration) }}
+          </span>
         </div>
         <div class="operators">
           <div class="icon i-left" @click="changeMode">
@@ -49,22 +50,27 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause" @canplay="ready" @timeupdate="updateTime"></audio>
+    <audio
+      ref="audioRef"
+      @pause="pause"
+      @canplay="ready"
+      @timeupdate="updateTime"
+    ></audio>
   </div>
 </template>
 
 <script setup>
-import ProgressBar from './progress-bar.vue'
+import ProgressBar from "./progress-bar.vue";
 import usePlay from "./use-play";
 import useMode from "./use-mode";
 import usePlayBtn from "./use-playbtn";
-import useFavorite from './use-favorite.js'
-import usePlayProgress from './use-playprogress'
+import useFavorite from "./use-favorite.js";
+import usePlayProgress from "./use-playprogress";
 
-const { fullScreen, currentSong, pause, prev, next, ready, audioRef,goBack } = usePlay();
+const { fullScreen, currentSong, pause, prev, next, ready, audioRef, goBack } = usePlay();
 const { modeIcon, changeMode } = useMode();
 const { playIcon, togglePlay } = usePlayBtn();
-const { getFavoriteIcon,toggleFavorite } = useFavorite()
+const { getFavoriteIcon, toggleFavorite } = useFavorite();
 const { progress, currentTime, updateTime, progressChanged, progressChanging } = usePlayProgress(audioRef)
 
 </script>
