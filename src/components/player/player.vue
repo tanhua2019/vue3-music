@@ -15,21 +15,21 @@
         <!-- <div class="dot-wrapper">
           <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
           <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
-        </div>
+        </div> -->
         <div class="progress-wrapper">
-          <span class="time time-l">{{ formatTime(currentTime) }}</span>
+          <span class="time time-l">{{ $filters.formatTime(currentTime) }}</span>
           <div class="progress-bar-wrapper">
             <progress-bar
               ref="barRef"
               :progress="progress"
-              @progress-changing="onProgressChanging"
-              @progress-changed="onProgressChanged"
+              @progress-changed="progressChanged"
+              @progress-changing="progressChanging"
             ></progress-bar>
           </div>
           <span class="time time-r">{{
-            formatTime(currentSong.duration)
+            $filters.formatTime(currentSong.duration)
           }}</span>
-        </div> -->
+        </div>
         <div class="operators">
           <div class="icon i-left" @click="changeMode">
             <i :class="modeIcon"></i>
@@ -49,20 +49,23 @@
         </div>
       </div>
     </div>
-    <audio ref="audioRef" @pause="pause" @canplay="ready"></audio>
+    <audio ref="audioRef" @pause="pause" @canplay="ready" @timeupdate="updateTime"></audio>
   </div>
 </template>
 
 <script setup>
+import ProgressBar from './progress-bar.vue'
 import usePlay from "./use-play";
 import useMode from "./use-mode";
 import usePlayBtn from "./use-playbtn";
 import useFavorite from './use-favorite.js'
+import usePlayProgress from './use-playprogress'
 
 const { fullScreen, currentSong, pause, prev, next, ready, audioRef,goBack } = usePlay();
 const { modeIcon, changeMode } = useMode();
 const { playIcon, togglePlay } = usePlayBtn();
 const { getFavoriteIcon,toggleFavorite } = useFavorite()
+const { progress, currentTime, updateTime, progressChanged, progressChanging } = usePlayProgress(audioRef)
 
 </script>
 
