@@ -11,6 +11,23 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">{{ currentSong.singer }}</h2>
       </div>
+      <div class="middle">
+        <div class="middle-l">
+          <div ref="cdWrapperRef" class="cd-wrapper">
+            <div ref="cdRef" class="cd">
+              <img
+                ref="cdImageRef"
+                class="image"
+                :class="cdClass"
+                :src="currentSong.pic"
+              />
+            </div>
+          </div>
+          <div class="playing-lyric-wrapper">
+            <div class="playing-lyric">{{ playingLyric }}</div>
+          </div>
+        </div>
+      </div>
       <div class="bottom">
         <!-- <div class="dot-wrapper">
           <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
@@ -66,13 +83,16 @@ import useMode from "./use-mode";
 import usePlayBtn from "./use-playbtn";
 import useFavorite from "./use-favorite.js";
 import usePlayProgress from "./use-playprogress";
+import useCd from './use-cd'
 
-const { fullScreen, currentSong, pause, prev, next, ready, audioRef, goBack } = usePlay();
+const { fullScreen, currentSong, pause, prev, next, ready, audioRef, goBack } =
+  usePlay();
 const { modeIcon, changeMode } = useMode();
 const { playIcon, togglePlay } = usePlayBtn();
 const { getFavoriteIcon, toggleFavorite } = useFavorite();
-const { progress, currentTime, updateTime, progressChanged, progressChanging } = usePlayProgress(audioRef)
-
+const { progress, currentTime, updateTime, progressChanged, progressChanging } =
+  usePlayProgress(audioRef);
+const { cdClass, cdRef, cdImageRef } = useCd()
 </script>
 
 <style lang="scss" scoped>
@@ -140,8 +160,6 @@ const { progress, currentTime, updateTime, progressChanged, progressChanging } =
       white-space: nowrap;
       font-size: 0;
       .middle-l {
-        display: inline-block;
-        vertical-align: top;
         position: relative;
         width: 100%;
         height: 0;
