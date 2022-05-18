@@ -11,8 +11,13 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">{{ currentSong.singer }}</h2>
       </div>
-      <div class="middle" >
-        <div class="middle-l">
+      <div
+        class="middle"
+        @touchstart.prevent="onMiddleTouchStart"
+        @touchmove.prevent="onMiddleTouchMove"
+        @touchend.prevent="onMiddleTouchEnd"
+      >
+        <div class="middle-l" :style="middleLStyle">
           <div ref="cdWrapperRef" class="cd-wrapper">
             <div ref="cdRef" class="cd">
               <img
@@ -27,7 +32,7 @@
             <div class="playing-lyric">{{ playingLyric }}</div>
           </div>
         </div>
-        <div class="middle-r" style="display: none">
+        <div class="middle-r" :style="middleRStyle">
           <div class="lyric-wrapper">
             <div v-if="currentLyric" ref="lyricListRef">
               <p
@@ -43,10 +48,10 @@
         </div>
       </div>
       <div class="bottom">
-        <!-- <div class="dot-wrapper">
+        <div class="dot-wrapper">
           <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
           <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
-        </div> -->
+        </div>
         <div class="progress-wrapper">
           <span class="time time-l">
             {{ $filters.formatTime(currentTime) }}
@@ -99,6 +104,7 @@ import useFavorite from "./use-favorite.js";
 import usePlayProgress from "./use-playprogress";
 import useCd from "./use-cd";
 import useLyric from "./use-lyric";
+import useMiddleInteractive from "./use-middle-interactive";
 import { ref } from "vue";
 const playLyric = ref(null);
 const stopLyric = ref(null);
@@ -119,12 +125,22 @@ const { getFavoriteIcon, toggleFavorite } = useFavorite();
 const { progress, currentTime, updateTime, progressChanged, progressChanging } =
   usePlayProgress(audioRef, playLyric, stopLyric);
 const { cdClass, cdRef, cdImageRef } = useCd();
-var { currentLyric, currentLineNum, lyricListRef, playingLyric } = useLyric({
+const { currentLyric, currentLineNum, lyricListRef, playingLyric } = useLyric({
   songReady,
   currentTime,
   playLyric,
   stopLyric,
 });
+
+const {
+  onMiddleTouchStart,
+  onMiddleTouchMove,
+  onMiddleTouchEnd,
+  currentShow,
+  middleLStyle,
+  middleRStyle,
+} = useMiddleInteractive();
+
 </script>
 
 <style lang="scss" scoped>
@@ -189,9 +205,14 @@ var { currentLyric, currentLineNum, lyricListRef, playingLyric } = useLyric({
       width: 100%;
       top: 80px;
       bottom: 170px;
-      white-space: nowrap;
+      // white-space: nowrap;
       font-size: 0;
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: nowrap;
       .middle-l {
+        // display: inline-block;
+        flex-shrink: 0;
         position: relative;
         width: 100%;
         height: 0;
@@ -239,8 +260,9 @@ var { currentLyric, currentLineNum, lyricListRef, playingLyric } = useLyric({
         width: 0px;
       }
       .middle-r {
-        display: inline-block;
-        vertical-align: top;
+        // display: inline-block;
+        // vertical-align: top;
+        flex-shrink: 0;
         width: 100%;
         height: 100%;
         overflow: scroll;
