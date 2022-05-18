@@ -1,7 +1,7 @@
 import { useStore } from "vuex";
 import { computed, watch, ref } from "vue";
 
-export default function usePlay() {
+export default function usePlay(playLyric, stopLyric) {
   const store = useStore();
   const audioRef = ref();
   const fullScreen = computed(() => store.state.fullScreen);
@@ -19,7 +19,13 @@ export default function usePlay() {
   // 监听playing播放状态控制audio播放暂停
   watch(playing, (newPlaying) => {
     if (!songReady.value) return
-    newPlaying ? audioRef.value.play() : audioRef.value.pause();
+    if(newPlaying) {
+      audioRef.value.play()
+      playLyric.value()
+    } else {
+      audioRef.value.pause()
+      stopLyric.value()
+    }
   });
 
   // 监听当前播放音乐
@@ -85,8 +91,9 @@ export default function usePlay() {
   const ready = () => {
     if (songReady.value) return
     songReady.value = true
+    playLyric.value()
   }
-
+ 
   const goBack = () => {
     store.commit('setFullScreen', false)
   }
@@ -94,12 +101,12 @@ export default function usePlay() {
   return {
     fullScreen,
     currentSong,
-
     pause,
     prev,
     next,
     ready,
     audioRef,
-    goBack
+    goBack,
+    songReady
   }
 }
