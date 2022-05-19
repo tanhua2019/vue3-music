@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="playlist.length">
     <div class="normal-player" v-show="fullScreen">
       <div class="background">
         <img :src="currentSong.pic" />
@@ -86,6 +86,7 @@
         </div>
       </div>
     </div>
+    <mini-player :progress="progress" :toggle-play="togglePlay"></mini-player>
     <audio
       ref="audioRef"
       @pause="pause"
@@ -105,6 +106,7 @@ import usePlayProgress from "./use-playprogress";
 import useCd from "./use-cd";
 import useLyric from "./use-lyric";
 import useMiddleInteractive from "./use-middle-interactive";
+import MiniPlayer from './mini-player.vue'
 import { ref } from "vue";
 const playLyric = ref(null);
 const stopLyric = ref(null);
@@ -118,6 +120,7 @@ const {
   audioRef,
   goBack,
   songReady,
+  playlist
 } = usePlay(playLyric, stopLyric);
 const { modeIcon, changeMode } = useMode();
 const { playIcon, togglePlay } = usePlayBtn();

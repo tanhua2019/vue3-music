@@ -107,6 +107,7 @@ export default function usePlay(playLyric, stopLyric) {
     ready,
     audioRef,
     goBack,
-    songReady
+    songReady,
+    playlist
   }
 }
