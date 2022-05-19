@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/">ces</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">99</router-link>
   </nav>
   <router-view/>
 </template>
